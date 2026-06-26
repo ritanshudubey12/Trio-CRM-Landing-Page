@@ -14,12 +14,16 @@ import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import BookDemo from './components/BookDemo';
 import Footer from './components/Footer';
+import DemoModal from './components/DemoModal';
+import { useState } from 'react';
 
 function App() {
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
+
   return (
     <div className="min-h-screen">
-      <Navbar />
-      <Hero />
+      <Navbar onOpenDemo={() => setIsDemoOpen(true)} />
+      <Hero onOpenDemo={() => setIsDemoOpen(true)} />
       <TrustedBy />
       <ProblemSection />
       <WhyTrioCRM />
@@ -31,8 +35,9 @@ function App() {
       <Statistics />
       <Testimonials />
       <FAQ />
-      <BookDemo />
+      <BookDemo onOpenDemo={() => setIsDemoOpen(true)} />
       <Footer />
+      <DemoModal isOpen={isDemoOpen} onClose={() => setIsDemoOpen(false)} />
     </div>
   );
 }

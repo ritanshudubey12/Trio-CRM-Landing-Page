@@ -140,6 +140,20 @@ html {
 * { will-change: auto; }
 .animated-element { will-change: transform, opacity; }
 
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 8px)); } /* 8px to account for half of gap-4 */
+}
+
+.animate-marquee {
+  animation: marquee 15s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
 /* Hero Section */
 .hero-bg {
   position: relative;
@@ -260,13 +274,15 @@ html {
 }
 
 .pain-card {
-  background: #FFFFFF;
-  border: 1px solid #FEE2E2;
-  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
   padding: 28px;
   position: relative;
   overflow: hidden;
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .pain-card::before {
@@ -276,10 +292,9 @@ html {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #EF4444, #F97316);
+  background: linear-gradient(90deg, transparent, rgba(37,99,235,0.4), transparent);
   transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
 }
 
 .pain-card:hover::before {
@@ -287,8 +302,8 @@ html {
 }
 
 .pain-card:hover {
-  box-shadow: 0 8px 32px rgba(239,68,68,0.1);
-  transform: translateY(-3px);
+  box-shadow: 0 30px 60px rgba(37,99,235,0.1), inset 0 1px 0 rgba(255, 255, 255, 1);
+  border-color: rgba(255, 255, 255, 1);
 }
 
 /* Core Modules Section */
