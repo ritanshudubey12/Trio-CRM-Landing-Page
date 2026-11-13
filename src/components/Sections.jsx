@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Check, ChevronDown, Shield, Users, KeyRound, Link2 } from 'lucide-react';
 import { Flip, Tilt, Head } from './fx';
 import { LeadForm } from './LeadForm';
@@ -192,10 +192,48 @@ export const ProductTour = () => {
   );
 };
 
-/* Gallery: every product screen. Cards tilt toward the pointer; click opens a full-size viewer. */
+/* Gallery: scroll-linked 3D coverflow. Scroll down and the screens glide along a curved arc;
+   the centred one is full size and sharp, neighbours recede in depth. Click the centre card for a full-size viewer. */
+const CoverCard = ({ s, i, n, progress, onFocus }) => {
+  const d = useTransform(progress, (v) => i - v * (n - 1));
+  const x = useTransform(d, (v) => `${v * 66}%`);
+  const z = useTransform(d, (v) => -Math.min(Math.abs(v), 3) * 280);
+  const rotateY = useTransform(d, (v) => Math.max(-1, Math.min(1, v)) * -42);
+  const scale = useTransform(d, (v) => 1 - Math.min(Math.abs(v), 2.5) * 0.06);
+  const opacity = useTransform(d, (v) => Math.max(0, Math.min(1, 1 - (Math.abs(v) - 2.2) * 0.9)));
+  const zIndex = useTransform(d, (v) => 100 - Math.round(Math.abs(v) * 10));
+  const sheen = useTransform(d, (v) => Math.min(0.72, Math.max(0, Math.abs(v) - 0.15) * 0.45));
+  return (
+    <div className="absolute inset-0 grid place-items-center pointer-events-none">
+      <motion.button
+        onClick={() => onFocus(i, Math.abs(d.get()) < 0.5)}
+        aria-label={`View ${s.title}`}
+        style={{ x, z, rotateY, scale, opacity, zIndex, transformStyle: 'preserve-3d' }}
+        className="pointer-events-auto relative w-[min(80vw,780px)] rounded-[18px] sm:rounded-[22px] overflow-hidden border border-white/25 bg-panel shadow-[0_60px_130px_-25px_rgba(139,92,246,.6)] cursor-pointer">
+        <img src={s.src} alt={s.alt} width="1920" height="1080" loading="lazy" decoding="async" draggable="false" className="block w-full h-auto" />
+        <motion.span aria-hidden="true" style={{ opacity: sheen }} className="absolute inset-0 bg-void" />
+      </motion.button>
+    </div>
+  );
+};
+
 export const Gallery = () => {
+  const ref = useRef(null);
+  const reduce = useReducedMotion();
+  const [active, setActive] = useState(0);
   const [open, setOpen] = useState(-1);
   const n = SHOT_LIST.length;
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  useMotionValueEvent(scrollYProgress, 'change', (v) => setActive(Math.min(n - 1, Math.max(0, Math.round(v * (n - 1))))));
+
+  const goTo = (i) => {
+    const el = ref.current; if (!el) return;
+    const top = window.scrollY + el.getBoundingClientRect().top;
+    const span = el.offsetHeight - window.innerHeight;
+    window.scrollTo({ top: top + (i / (n - 1)) * span, behavior: 'smooth' });
+  };
+  const onFocus = (i, isCenter) => { if (isCenter) { setOpen(i); track('gallery_open', { shot: SHOT_LIST[i].id }); } else goTo(i); };
+
   useEffect(() => {
     if (open < 0) return;
     const onKey = (e) => {
@@ -207,34 +245,66 @@ export const Gallery = () => {
     document.body.style.overflow = 'hidden';
     return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
   }, [open, n]);
+
+  const viewer = open >= 0 && (
+    <div role="dialog" aria-modal="true" aria-label={SHOT_LIST[open].title} className="fixed inset-0 z-[70] grid place-items-center p-3 sm:p-8 bg-void/90 backdrop-blur-md" onMouseDown={(e) => e.target === e.currentTarget && setOpen(-1)}>
+      <button onClick={() => setOpen(-1)} aria-label="Close" className="absolute top-3 right-3 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer text-xl">×</button>
+      <button onClick={() => setOpen((open - 1 + n) % n)} aria-label="Previous" className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer text-xl">‹</button>
+      <button onClick={() => setOpen((open + 1) % n)} aria-label="Next" className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer text-xl">›</button>
+      <figure className="max-w-[1280px] w-full">
+        <img src={SHOT_LIST[open].src} alt={SHOT_LIST[open].alt} className="w-full h-auto rounded-2xl border border-white/20 shadow-[0_40px_120px_rgba(139,92,246,.4)]" />
+        <figcaption className="mt-3 text-center text-mist text-sm">{SHOT_LIST[open].title} · {open + 1} / {n}</figcaption>
+      </figure>
+    </div>
+  );
+
+  // Reduced motion: no scroll choreography, just a swipeable row.
+  if (reduce) {
+    return (
+      <section id="gallery" className="section">
+        <div className="container-x">
+          <Head kicker="Inside the product" title="Every screen, one connected workspace." />
+          <ul className="mt-10 flex gap-4 overflow-x-auto snap-x pb-4">
+            {SHOT_LIST.map((s, k) => (
+              <li key={s.id} className="snap-center shrink-0 w-[85vw] sm:w-[560px]">
+                <button onClick={() => setOpen(k)} className="block w-full cursor-zoom-in rounded-2xl overflow-hidden border border-white/20"><img src={s.src} alt={s.alt} width="1920" height="1080" loading="lazy" className="block w-full h-auto" /></button>
+                <p className="mt-2 text-sm text-mist">{s.title}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+        {viewer}
+      </section>
+    );
+  }
+
   return (
-    <section id="gallery" className="section">
-      <div className="container-x">
-        <Head kicker="Inside the product" title="Every screen, one connected workspace." lead="Tap any screen to view it full size. Personal details are blurred." />
-        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {SHOT_LIST.map((s, k) => (
-            <Flip key={s.id} from={26}>
-              <Tilt className="panel overflow-hidden !rounded-[20px]" max={6}>
-                <button onClick={() => { setOpen(k); track('gallery_open', { shot: s.id }); }} className="block w-full text-left cursor-zoom-in" aria-label={`View ${s.title} full size`}>
-                  <img src={s.src} alt={s.alt} width="1920" height="1080" loading="lazy" decoding="async" className="block w-full h-auto" />
-                  <span className="block px-5 py-3.5 font-display font-bold text-[15px] border-t border-white/10">{s.title}</span>
-                </button>
-              </Tilt>
-            </Flip>
-          ))}
+    <section id="gallery" ref={ref} style={{ height: `${n * 42 + 100}vh` }} className="relative">
+      <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden py-16 sm:py-20">
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-56 bg-gradient-to-b from-void via-void/80 to-transparent pointer-events-none" />
+        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-void via-void/85 to-transparent pointer-events-none" />
+        <div aria-hidden="true" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[520px] rounded-full bg-[radial-gradient(closest-side,rgba(139,92,246,.35),transparent)] blur-2xl pointer-events-none" />
+        <div className="container-x relative text-center">
+          <p className="kicker">Inside the product</p>
+          <h2 className="h2 mt-2 text-[clamp(1.7rem,3.4vw,2.8rem)]">Every screen, one connected workspace.</h2>
+        </div>
+
+        <div className="relative mt-8 sm:mt-10 h-[min(47vh,440px)]" style={{ perspective: 1700 }}>
+          {SHOT_LIST.map((s, i) => <CoverCard key={s.id} s={s} i={i} n={n} progress={scrollYProgress} onFocus={onFocus} />)}
+        </div>
+
+        <div className="container-x relative mt-7 text-center">
+          <p className="font-display text-xl sm:text-2xl font-bold" aria-live="polite">{SHOT_LIST[active].title}</p>
+          <p className="text-[12px] text-mist mt-1">{active + 1} / {n} · Click the centre screen to enlarge · Personal details blurred</p>
+          <div className="mt-3 flex gap-1.5 overflow-x-auto justify-start sm:justify-center pb-1 [scrollbar-width:none]" role="tablist" aria-label="Product screens">
+            {SHOT_LIST.map((s, k) => (
+              <button key={s.id} role="tab" aria-selected={k === active} onClick={() => goTo(k)}
+                className={`shrink-0 min-h-[34px] px-3 rounded-full text-[12px] font-semibold cursor-pointer transition-colors ${k === active ? 'bg-lime text-void' : 'border border-white/15 text-mist hover:bg-white/10'}`}>{s.title}</button>
+            ))}
+          </div>
         </div>
       </div>
-      {open >= 0 && (
-        <div role="dialog" aria-modal="true" aria-label={SHOT_LIST[open].title} className="fixed inset-0 z-[70] grid place-items-center p-3 sm:p-8 bg-void/90 backdrop-blur-md" onMouseDown={(e) => e.target === e.currentTarget && setOpen(-1)}>
-          <button onClick={() => setOpen(-1)} aria-label="Close" className="absolute top-3 right-3 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer text-xl">×</button>
-          <button onClick={() => setOpen((open - 1 + n) % n)} aria-label="Previous" className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer text-xl">‹</button>
-          <button onClick={() => setOpen((open + 1) % n)} aria-label="Next" className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer text-xl">›</button>
-          <figure className="max-w-[1280px] w-full">
-            <img src={SHOT_LIST[open].src} alt={SHOT_LIST[open].alt} className="w-full h-auto rounded-2xl border border-white/20 shadow-[0_40px_120px_rgba(139,92,246,.4)]" />
-            <figcaption className="mt-3 text-center text-mist text-sm">{SHOT_LIST[open].title} · {open + 1} / {n}</figcaption>
-          </figure>
-        </div>
-      )}
+      {viewer}
     </section>
   );
 };
