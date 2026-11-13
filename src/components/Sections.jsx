@@ -87,7 +87,7 @@ export const Capabilities = () => {
     <section id="features" ref={ref} style={{ height: `${n * 80 + 20}vh` }} className="relative">
       <div className="sticky top-0 min-h-screen flex items-center py-20">
         <div className="container-x w-full grid lg:grid-cols-[.9fr_1.1fr] gap-8 lg:gap-14 items-center">
-          <div>
+          <div className="text-scrim">
             <p className="kicker">Core capabilities</p>
             <ul className="mt-5 hidden sm:flex flex-wrap gap-2" aria-label="Capabilities">
               {CAPABILITIES.map((x, k) => (
@@ -440,7 +440,7 @@ export const FAQ = () => {
 export const FinalCta = ({ onStart }) => (
   <section id="contact" className="section">
     <div className="container-x grid lg:grid-cols-[1.1fr_.9fr] gap-12 items-center">
-      <div>
+      <div className="text-scrim">
         <p className="kicker">Get started</p>
         <h2 className="h2 mt-3 text-[clamp(2.4rem,5vw,4.4rem)]">Ready to fly through your pipeline?</h2>
         <p className="lead mt-4">Start free, or book a walkthrough and we'll show you the workspace with your sales process in mind.</p>

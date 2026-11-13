@@ -153,7 +153,7 @@ function Crystal({ mobile }) {
       <group ref={spin} scale={1.45}><Logo3D /></group>
       <mesh ref={shell} scale={1.7}>
         <icosahedronGeometry args={[1.5, 1]} />
-        <meshBasicMaterial color={hot('#FF5A5F', 1.6)} wireframe transparent opacity={0.4} toneMapped={false} />
+        <meshBasicMaterial color={hot('#4CC9FF', 1.5)} wireframe transparent opacity={0.4} toneMapped={false} />
       </mesh>
       <mesh ref={shell2} scale={2.2}>
         <icosahedronGeometry args={[1.5, 2]} />
@@ -201,7 +201,7 @@ function LeadOrbit({ count }) {
 // Stage 2 — pipeline funnel: four lanes, shrinking stage by stage
 function Funnel() {
   const lanes = [
-    { x: -6, n: 9, c: '#3B82FF' }, { x: -2, n: 6, c: '#7AA7FF' }, { x: 2, n: 4, c: '#FFB547' }, { x: 6, n: 2, c: '#4CC9FF' },
+    { x: -6, n: 9, c: '#3B82FF' }, { x: -2, n: 6, c: '#7AA7FF' }, { x: 2, n: 4, c: '#FFB547' }, { x: 6, n: 2, c: '#34D399' },
   ];
   const refs = useRef([]);
   useFrame(({ clock }) => {

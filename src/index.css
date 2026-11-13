@@ -77,3 +77,8 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Soft dark backing so 3D objects passing behind never hurt text legibility */
+.text-scrim { position: relative; isolation: isolate; }
+.text-scrim::before { content: ""; position: absolute; inset: -48px -40px; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(4,9,21,.82), rgba(4,9,21,.55) 60%, transparent); }
