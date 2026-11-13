@@ -6,7 +6,7 @@ import { track } from '../lib/track';
 export const Logo = () => (
   <a href="#top" className="flex items-center gap-2.5 font-display font-bold text-[20px] tracking-tight" aria-label="Triostack CRM home">
     <img src="/logo.png" alt="" width="41" height="36" className="h-9 w-auto" />
-    Triostack<span className="text-lime">CRM</span>
+    Triostack<span className="text-cyan">CRM</span>
   </a>
 );
 
@@ -21,14 +21,14 @@ export const Navbar = ({ onOpenDemo, onStart }) => {
   }, []);
   return (
     <header className="fixed top-3 inset-x-0 z-50 px-3">
-      <div className={`mx-auto max-w-[1100px] h-[60px] rounded-full flex items-center justify-between pl-5 pr-2 transition-all duration-300 ${scrolled || open ? 'bg-[#0F0D22]/80 backdrop-blur-xl border border-white/10 shadow-[0_20px_60px_-20px_rgba(139,92,246,.5)]' : 'bg-transparent border border-transparent'}`}>
+      <div className={`mx-auto max-w-[1100px] h-[60px] rounded-full flex items-center justify-between pl-5 pr-2 transition-all duration-300 ${scrolled || open ? 'bg-[#0F0D22]/80 backdrop-blur-xl border border-white/10 shadow-[0_20px_60px_-20px_rgba(59,130,255,.5)]' : 'bg-transparent border border-transparent'}`}>
         <Logo />
         <nav className="hidden lg:flex items-center gap-7" aria-label="Primary">
           {NAV_LINKS.map((l) => <a key={l.label} href={l.href} className="text-[14px] font-medium text-mist hover:text-white transition-colors">{l.label}</a>)}
         </nav>
         <div className="flex items-center gap-1.5">
           <button onClick={onOpenDemo} className="hidden md:inline-flex text-[14px] font-medium text-mist hover:text-white px-3 min-h-[44px] items-center cursor-pointer">Book a demo</button>
-          <button onClick={onStart} className="btn btn-lime !min-h-[44px] !px-5 !text-[14px]">Start free</button>
+          <button onClick={onStart} className="btn btn-primary !min-h-[44px] !px-5 !text-[14px]">Start free</button>
           <button className="lg:hidden grid place-items-center w-11 h-11 text-white cursor-pointer" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen(!open)}>
             {open ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -57,7 +57,7 @@ export const StickyCta = ({ onStart }) => {
   }, []);
   return (
     <div className={`md:hidden fixed bottom-3 inset-x-4 z-40 transition-all duration-300 ${show ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}>
-      <button onClick={() => { track('cta_click', { id: 'sticky_start_free' }); onStart(); }} className="btn btn-lime w-full">Start free <ArrowRight size={18} /></button>
+      <button onClick={() => { track('cta_click', { id: 'sticky_start_free' }); onStart(); }} className="btn btn-primary w-full">Start free <ArrowRight size={18} /></button>
     </div>
   );
 };

@@ -29,13 +29,13 @@ export const LeadForm = ({ intent = 'demo', id = 'lead' }) => {
   if (done) {
     return (
       <div role="status" className="text-center py-8">
-        <div className="mx-auto w-14 h-14 rounded-full bg-lime/15 grid place-items-center text-lime"><Check size={28} /></div>
+        <div className="mx-auto w-14 h-14 rounded-full bg-cyan/15 grid place-items-center text-cyan"><Check size={28} /></div>
         <h3 className="mt-4 text-xl font-bold">Thanks, {v.name.split(' ')[0]}!</h3>
         <p className="mt-2 text-sm text-mist">We'll be in touch at {v.email} shortly.</p>
       </div>
     );
   }
-  const field = 'w-full min-h-[48px] rounded-xl border px-4 text-[15px] bg-white/5 text-white placeholder:text-white/35 focus:border-violet focus:ring-2 focus:ring-violet/40 outline-none';
+  const field = 'w-full min-h-[48px] rounded-xl border px-4 text-[15px] bg-white/5 text-white placeholder:text-white/35 focus:border-blue focus:ring-2 focus:ring-blue/40 outline-none';
   return (
     <form onSubmit={submit} noValidate className="space-y-3.5">
       {[['name', 'Full name', 'text', 'name', 'Aarav Sharma'], ['email', 'Work email', 'email', 'email', 'you@company.com'], ['company', 'Company (optional)', 'text', 'organization', 'Company name'], ['phone', 'Phone (optional)', 'tel', 'tel', '+91 …']].map(([k, label, type, ac, ph]) => (
@@ -43,11 +43,11 @@ export const LeadForm = ({ intent = 'demo', id = 'lead' }) => {
           <label htmlFor={`${id}-${k}`} className="block text-[13px] font-semibold mb-1.5 text-white/90">{label}</label>
           <input id={`${id}-${k}`} type={type} autoComplete={ac} placeholder={ph} value={v[k]} onChange={set(k)}
             aria-invalid={!!err[k]} aria-describedby={err[k] ? `${id}-${k}-e` : undefined}
-            className={`${field} ${err[k] ? 'border-pink' : 'border-white/15'}`} />
-          {err[k] && <p id={`${id}-${k}-e`} className="text-pink text-xs mt-1">{err[k]}</p>}
+            className={`${field} ${err[k] ? 'border-coral' : 'border-white/15'}`} />
+          {err[k] && <p id={`${id}-${k}-e`} className="text-coral text-xs mt-1">{err[k]}</p>}
         </div>
       ))}
-      <button type="submit" className="btn btn-lime w-full">{intent === 'start' ? 'Start free' : 'Book my demo'}</button>
+      <button type="submit" className="btn btn-primary w-full">{intent === 'start' ? 'Start free' : 'Book my demo'}</button>
       <p className="text-xs text-center text-mist">We'll only use your details to respond. See our privacy policy.</p>
     </form>
   );

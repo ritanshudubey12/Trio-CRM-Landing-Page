@@ -13,7 +13,7 @@ export const ProductReveal = () => (
   <section aria-label="Product screenshot" className="relative pb-16 lg:pb-28 -mt-10">
     <div className="container-x">
       <Flip from={38} offsetEnd={0.35}>
-        <div className="mx-auto max-w-[1100px] rounded-[24px] overflow-hidden border border-white/20 shadow-[0_60px_140px_-20px_rgba(139,92,246,.6)]">
+        <div className="mx-auto max-w-[1100px] rounded-[24px] overflow-hidden border border-white/20 shadow-[0_60px_140px_-20px_rgba(59,130,255,.6)]">
           <Shot id="customers" eager />
         </div>
       </Flip>
@@ -51,7 +51,7 @@ export const ProblemSolution = () => (
         ))}
       </div>
       <Flip className="mt-6" from={20}>
-        <div className="panel p-8 lg:p-12 grid lg:grid-cols-2 gap-8 items-center !border-violet/40">
+        <div className="panel p-8 lg:p-12 grid lg:grid-cols-2 gap-8 items-center !border-blue/40">
           <div>
             <p className="kicker">The solution</p>
             <h3 className="mt-3 text-3xl lg:text-5xl font-bold">{SOLUTION.t}</h3>
@@ -60,7 +60,7 @@ export const ProblemSolution = () => (
           <ul className="space-y-3">
             {SOLUTION.points.map((p) => (
               <li key={p} className="flex items-center gap-3 rounded-2xl bg-white/5 border border-white/10 px-4 py-3.5">
-                <span className="grid place-items-center w-6 h-6 rounded-full bg-lime text-void"><Check size={14} /></span>{p}
+                <span className="grid place-items-center w-6 h-6 rounded-full bg-cyan text-void"><Check size={14} /></span>{p}
               </li>
             ))}
           </ul>
@@ -91,7 +91,7 @@ export const Capabilities = () => {
             <p className="kicker">Core capabilities</p>
             <ul className="mt-5 hidden sm:flex flex-wrap gap-2" aria-label="Capabilities">
               {CAPABILITIES.map((x, k) => (
-                <li key={x.id} className={`px-3 py-1 rounded-full text-[12px] font-semibold border transition-colors ${k === i ? 'bg-lime text-void border-lime' : 'border-white/15 text-mist'}`}>{x.tag}</li>
+                <li key={x.id} className={`px-3 py-1 rounded-full text-[12px] font-semibold border transition-colors ${k === i ? 'bg-cyan text-void border-cyan' : 'border-white/15 text-mist'}`}>{x.tag}</li>
               ))}
             </ul>
             <AnimatePresence mode="wait" initial={false}>
@@ -101,7 +101,7 @@ export const Capabilities = () => {
               </motion.div>
             </AnimatePresence>
             <div className="mt-6 flex gap-1.5" aria-hidden="true">
-              {CAPABILITIES.map((_, k) => <span key={k} className={`h-1 rounded-full transition-all duration-300 ${k === i ? 'w-10 bg-lime' : 'w-4 bg-white/20'}`} />)}
+              {CAPABILITIES.map((_, k) => <span key={k} className={`h-1 rounded-full transition-all duration-300 ${k === i ? 'w-10 bg-cyan' : 'w-4 bg-white/20'}`} />)}
             </div>
           </div>
           <div className="persp">
@@ -111,7 +111,7 @@ export const Capabilities = () => {
                 animate={{ opacity: 1, rotateY: -8, rotateX: 4, scale: 1, z: 0 }}
                 exit={{ opacity: 0, rotateY: -55 * dir, scale: .9, z: -120 }}
                 transition={{ duration: .5, ease: [0.22, 1, 0.36, 1] }}
-                className="rounded-[22px] overflow-hidden border border-white/20 shadow-[0_50px_120px_-20px_rgba(139,92,246,.55)]" style={{ transformStyle: 'preserve-3d' }}>
+                className="rounded-[22px] overflow-hidden border border-white/20 shadow-[0_50px_120px_-20px_rgba(59,130,255,.55)]" style={{ transformStyle: 'preserve-3d' }}>
                 <Shot id={c.shot} />
               </motion.div>
             </AnimatePresence>
@@ -165,7 +165,7 @@ export const ProductTour = () => {
         <div role="tablist" aria-label="Product tour" onKeyDown={onKey} className="mt-10 flex flex-wrap justify-center gap-2">
           {TOUR.map((t, k) => (
             <button key={t.id} role="tab" aria-selected={k === i} tabIndex={k === i ? 0 : -1} onClick={() => { go(k); track('tour_tab', { tab: t.id }); }}
-              className={`min-h-[44px] px-5 rounded-full text-[14px] font-bold cursor-pointer transition-all ${k === i ? 'bg-lime text-void' : 'text-white border border-white/20 hover:bg-white/10'}`}>{t.label}</button>
+              className={`min-h-[44px] px-5 rounded-full text-[14px] font-bold cursor-pointer transition-all ${k === i ? 'bg-cyan text-void' : 'text-white border border-white/20 hover:bg-white/10'}`}>{t.label}</button>
           ))}
         </div>
         <div className="persp mt-10 mx-auto touch-pan-y select-none" style={{ height: CH * scale + 40, perspective: 1800 }}
@@ -177,7 +177,7 @@ export const ProductTour = () => {
                 const active = k === i;
                 return (
                   <div key={t.id} role="tabpanel" aria-hidden={!active} className="absolute inset-0 rounded-[20px] overflow-hidden border border-white/20 bg-panel transition-opacity duration-500"
-                    style={{ transform: `rotateY(${k * (360 / n)}deg) translateZ(${radius}px)`, opacity: active ? 1 : 0.35, backfaceVisibility: 'hidden', boxShadow: active ? '0 40px 100px -20px rgba(139,92,246,.7)' : 'none' }}>
+                    style={{ transform: `rotateY(${k * (360 / n)}deg) translateZ(${radius}px)`, opacity: active ? 1 : 0.35, backfaceVisibility: 'hidden', boxShadow: active ? '0 40px 100px -20px rgba(59,130,255,.7)' : 'none' }}>
                     <Shot id={t.shot} />
                   </div>
                 );
@@ -209,7 +209,7 @@ const CoverCard = ({ s, i, n, progress, onFocus }) => {
         onClick={() => onFocus(i, Math.abs(d.get()) < 0.5)}
         aria-label={`View ${s.title}`}
         style={{ x, z, rotateY, scale, opacity, zIndex, transformStyle: 'preserve-3d' }}
-        className="pointer-events-auto relative w-[min(80vw,780px)] rounded-[18px] sm:rounded-[22px] overflow-hidden border border-white/25 bg-panel shadow-[0_60px_130px_-25px_rgba(139,92,246,.6)] cursor-pointer">
+        className="pointer-events-auto relative w-[min(80vw,780px)] rounded-[18px] sm:rounded-[22px] overflow-hidden border border-white/25 bg-panel shadow-[0_60px_130px_-25px_rgba(59,130,255,.6)] cursor-pointer">
         <img src={s.src} alt={s.alt} width="1920" height="1080" loading="lazy" decoding="async" draggable="false" className="block w-full h-auto" />
         <motion.span aria-hidden="true" style={{ opacity: sheen }} className="absolute inset-0 bg-void" />
       </motion.button>
@@ -252,7 +252,7 @@ export const Gallery = () => {
       <button onClick={() => setOpen((open - 1 + n) % n)} aria-label="Previous" className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer text-xl">‹</button>
       <button onClick={() => setOpen((open + 1) % n)} aria-label="Next" className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer text-xl">›</button>
       <figure className="max-w-[1280px] w-full">
-        <img src={SHOT_LIST[open].src} alt={SHOT_LIST[open].alt} className="w-full h-auto rounded-2xl border border-white/20 shadow-[0_40px_120px_rgba(139,92,246,.4)]" />
+        <img src={SHOT_LIST[open].src} alt={SHOT_LIST[open].alt} className="w-full h-auto rounded-2xl border border-white/20 shadow-[0_40px_120px_rgba(59,130,255,.4)]" />
         <figcaption className="mt-3 text-center text-mist text-sm">{SHOT_LIST[open].title} · {open + 1} / {n}</figcaption>
       </figure>
     </div>
@@ -283,7 +283,7 @@ export const Gallery = () => {
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden py-16 sm:py-20">
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-56 bg-gradient-to-b from-void via-void/80 to-transparent pointer-events-none" />
         <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-void via-void/85 to-transparent pointer-events-none" />
-        <div aria-hidden="true" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[520px] rounded-full bg-[radial-gradient(closest-side,rgba(139,92,246,.35),transparent)] blur-2xl pointer-events-none" />
+        <div aria-hidden="true" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[520px] rounded-full bg-[radial-gradient(closest-side,rgba(59,130,255,.35),transparent)] blur-2xl pointer-events-none" />
         <div className="container-x relative text-center">
           <p className="kicker">Inside the product</p>
           <h2 className="h2 mt-2 text-[clamp(1.7rem,3.4vw,2.8rem)]">Every screen, one connected workspace.</h2>
@@ -299,7 +299,7 @@ export const Gallery = () => {
           <div className="mt-3 flex gap-1.5 overflow-x-auto justify-start sm:justify-center pb-1 [scrollbar-width:none]" role="tablist" aria-label="Product screens">
             {SHOT_LIST.map((s, k) => (
               <button key={s.id} role="tab" aria-selected={k === active} onClick={() => goTo(k)}
-                className={`shrink-0 min-h-[34px] px-3 rounded-full text-[12px] font-semibold cursor-pointer transition-colors ${k === active ? 'bg-lime text-void' : 'border border-white/15 text-mist hover:bg-white/10'}`}>{s.title}</button>
+                className={`shrink-0 min-h-[34px] px-3 rounded-full text-[12px] font-semibold cursor-pointer transition-colors ${k === active ? 'bg-cyan text-void' : 'border border-white/15 text-mist hover:bg-white/10'}`}>{s.title}</button>
             ))}
           </div>
         </div>
@@ -321,7 +321,7 @@ export const HowItWorks = () => (
               <Flip from={40} offsetEnd={0.7}>
                 <div className="panel p-6 lg:mx-1.5 relative overflow-hidden">
                   <span className="absolute -right-2 -top-4 font-display text-[88px] font-bold text-white/[.05] leading-none">{s.n}</span>
-                  <span className="relative inline-grid place-items-center w-11 h-11 rounded-xl bg-gradient-to-br from-violet to-pink font-display font-bold">{s.n}</span>
+                  <span className="relative inline-grid place-items-center w-11 h-11 rounded-xl bg-gradient-to-br from-blue to-coral font-display font-bold">{s.n}</span>
                   <h3 className="relative mt-4 text-xl font-bold">{s.t}</h3>
                   <p className="relative mt-1.5 text-[14px] text-mist">{s.d}</p>
                 </div>
@@ -345,7 +345,7 @@ export const ConnectedSuite = () => (
           return (
             <Flip key={s.t} from={30}>
               <Tilt className="panel p-8 h-full">
-                <div className="w-14 h-14 rounded-2xl bg-lime/10 text-lime grid place-items-center" style={{ transform: 'translateZ(50px)' }}><Icon size={26} /></div>
+                <div className="w-14 h-14 rounded-2xl bg-cyan/10 text-cyan grid place-items-center" style={{ transform: 'translateZ(50px)' }}><Icon size={26} /></div>
                 <h3 className="mt-6 text-2xl font-bold" style={{ transform: 'translateZ(30px)' }}>{s.t}</h3>
                 <p className="mt-2 text-mist">{s.d}</p>
               </Tilt>
@@ -368,7 +368,7 @@ export const UseCases = () => (
             <Tilt className="panel p-8 h-full">
               <h3 className="text-3xl font-bold grad-text" style={{ transform: 'translateZ(40px)' }}>{u.t}</h3>
               <p className="mt-3 text-mist">{u.d}</p>
-              <a href="#contact" className="mt-6 inline-flex items-center gap-1.5 text-lime font-bold text-[14px] hover:gap-2.5 transition-all">Talk to us <ArrowRight size={16} /></a>
+              <a href="#contact" className="mt-6 inline-flex items-center gap-1.5 text-cyan font-bold text-[14px] hover:gap-2.5 transition-all">Talk to us <ArrowRight size={16} /></a>
             </Tilt>
           </Flip>
         ))}
@@ -392,7 +392,7 @@ export const SecuritySection = () => (
           return (
             <Flip key={s.t} from={30}>
               <Tilt className="panel p-6 h-full">
-                <Icon className="text-lime" size={26} style={{ transform: 'translateZ(40px)' }} />
+                <Icon className="text-cyan" size={26} style={{ transform: 'translateZ(40px)' }} />
                 <h3 className="mt-4 font-bold text-lg">{s.t}</h3>
                 <p className="mt-1.5 text-sm text-mist">{s.d}</p>
               </Tilt>
@@ -402,7 +402,7 @@ export const SecuritySection = () => (
       </div>
       <div className="lg:col-span-2">
         <Flip from={24}>
-          <div className="mx-auto max-w-[1000px] rounded-[22px] overflow-hidden border border-white/20 shadow-[0_50px_120px_-20px_rgba(139,92,246,.45)]"><Shot id="audit" /></div>
+          <div className="mx-auto max-w-[1000px] rounded-[22px] overflow-hidden border border-white/20 shadow-[0_50px_120px_-20px_rgba(59,130,255,.45)]"><Shot id="audit" /></div>
         </Flip>
         <p className="mt-3 text-center text-[11px] text-mist/70">Audit logs record activity across modules. Sample data.</p>
       </div>
@@ -424,7 +424,7 @@ export const FAQ = () => {
                 <h3>
                   <button aria-expanded={isOpen} aria-controls={`faq-${k}`} onClick={() => setOpen(isOpen ? -1 : k)}
                     className="w-full flex items-center justify-between gap-4 text-left px-5 sm:px-6 min-h-[60px] py-3 font-sans font-semibold text-[16px] tracking-normal cursor-pointer">
-                    {f.q}<ChevronDown size={20} className={`shrink-0 text-lime transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                    {f.q}<ChevronDown size={20} className={`shrink-0 text-cyan transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
                   </button>
                 </h3>
                 <div id={`faq-${k}`} role="region" hidden={!isOpen} className="px-5 sm:px-6 pb-5 -mt-1 text-mist text-[15px]">{f.a}</div>
@@ -446,13 +446,13 @@ export const FinalCta = ({ onStart }) => (
         <p className="lead mt-4">Start free, or book a walkthrough and we'll show you the workspace with your sales process in mind.</p>
         <ul className="mt-6 space-y-2.5">
           {['Leads, pipeline and conversations in one place', 'A walkthrough tailored to your team', 'No credit card required'].map((t) => (
-            <li key={t} className="flex items-center gap-3"><span className="grid place-items-center w-5 h-5 rounded-full bg-lime text-void"><Check size={12} /></span>{t}</li>
+            <li key={t} className="flex items-center gap-3"><span className="grid place-items-center w-5 h-5 rounded-full bg-cyan text-void"><Check size={12} /></span>{t}</li>
           ))}
         </ul>
         <button onClick={onStart} className="btn btn-outline mt-8 lg:hidden">Prefer a quick start? Start free</button>
       </div>
       <Flip from={26}>
-        <div className="panel p-6 sm:p-8 !border-violet/40">
+        <div className="panel p-6 sm:p-8 !border-blue/40">
           <h3 className="text-xl font-bold mb-1">Book a live demo</h3>
           <p className="text-sm text-mist mb-5">Tell us a little about your team.</p>
           <LeadForm id="final" intent="demo" />

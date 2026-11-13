@@ -61,7 +61,7 @@ function Stars({ count }) {
   }, [count]);
   return (
     <points geometry={geo}>
-      <pointsMaterial size={0.09} color="#cfc4ff" transparent opacity={0.8} sizeAttenuation depthWrite={false} />
+      <pointsMaterial size={0.09} color="#bcd7ff" transparent opacity={0.8} sizeAttenuation depthWrite={false} />
     </points>
   );
 }
@@ -86,8 +86,8 @@ function useGlow() {
     const c = document.createElement('canvas'); c.width = c.height = 256;
     const x = c.getContext('2d');
     const g = x.createRadialGradient(128, 128, 0, 128, 128, 128);
-    g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(0.2, 'rgba(160,120,255,.5)');
-    g.addColorStop(0.55, 'rgba(255,77,141,.16)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(0.2, 'rgba(90,150,255,.5)');
+    g.addColorStop(0.55, 'rgba(255,90,95,.16)'); g.addColorStop(1, 'rgba(0,0,0,0)');
     x.fillStyle = g; x.fillRect(0, 0, 256, 256);
     return new THREE.CanvasTexture(c);
   }, []);
@@ -153,23 +153,23 @@ function Crystal({ mobile }) {
       <group ref={spin} scale={1.45}><Logo3D /></group>
       <mesh ref={shell} scale={1.7}>
         <icosahedronGeometry args={[1.5, 1]} />
-        <meshBasicMaterial color={hot('#FF4D8D', 1.6)} wireframe transparent opacity={0.4} toneMapped={false} />
+        <meshBasicMaterial color={hot('#FF5A5F', 1.6)} wireframe transparent opacity={0.4} toneMapped={false} />
       </mesh>
       <mesh ref={shell2} scale={2.2}>
         <icosahedronGeometry args={[1.5, 2]} />
-        <meshBasicMaterial color="#8B5CF6" wireframe transparent opacity={0.1} />
+        <meshBasicMaterial color="#3B82FF" wireframe transparent opacity={0.1} />
       </mesh>
-      <mesh ref={r1}><torusGeometry args={[3.4, 0.03, 12, 160]} /><meshBasicMaterial color={hot('#C6F432')} toneMapped={false} /></mesh>
-      <mesh ref={r2} rotation={[1.2, 0, 0]}><torusGeometry args={[3.9, 0.025, 12, 160]} /><meshBasicMaterial color={hot('#8B5CF6', 2)} toneMapped={false} /></mesh>
-      <mesh ref={r3} rotation={[0.4, 0.9, 0]}><torusGeometry args={[4.5, 0.015, 12, 160]} /><meshBasicMaterial color={hot('#6EA8FF', 1.8)} toneMapped={false} /></mesh>
+      <mesh ref={r1}><torusGeometry args={[3.4, 0.03, 12, 160]} /><meshBasicMaterial color={hot('#4CC9FF')} toneMapped={false} /></mesh>
+      <mesh ref={r2} rotation={[1.2, 0, 0]}><torusGeometry args={[3.9, 0.025, 12, 160]} /><meshBasicMaterial color={hot('#3B82FF', 2)} toneMapped={false} /></mesh>
+      <mesh ref={r3} rotation={[0.4, 0.9, 0]}><torusGeometry args={[4.5, 0.015, 12, 160]} /><meshBasicMaterial color={hot('#7AA7FF', 1.8)} toneMapped={false} /></mesh>
       {[0, 1, 2, 3].map((i) => (
         <mesh key={i} ref={(el) => (comets.current[i] = el)}>
           <sphereGeometry args={[0.07 + i * 0.01, 16, 16]} />
-          <meshBasicMaterial color={hot(['#ffffff', '#C6F432', '#FF4D8D', '#6EA8FF'][i], 3)} toneMapped={false} />
+          <meshBasicMaterial color={hot(['#ffffff', '#4CC9FF', '#FF5A5F', '#7AA7FF'][i], 3)} toneMapped={false} />
         </mesh>
       ))}
       <pointLight position={[0, 0, 3]} intensity={30} color="#9fd0ff" />
-      <pointLight position={[-3, 2, 2]} intensity={25} color="#ff6aa8" />
+      <pointLight position={[-3, 2, 2]} intensity={25} color="#ff8a8a" />
     </group>
   );
 }
@@ -179,7 +179,7 @@ function LeadOrbit({ count }) {
   const refs = useRef([]);
   const data = useMemo(() => Array.from({ length: count }, (_, i) => ({
     a: (i / count) * Math.PI * 2, r: 4 + Math.random() * 5, y: (Math.random() - 0.5) * 6, s: 0.15 + Math.random() * 0.25, sp: 0.1 + Math.random() * 0.3,
-    c: ['#8B5CF6', '#FF4D8D', '#C6F432'][i % 3],
+    c: ['#3B82FF', '#FF5A5F', '#4CC9FF'][i % 3],
   })), [count]);
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
@@ -201,7 +201,7 @@ function LeadOrbit({ count }) {
 // Stage 2 — pipeline funnel: four lanes, shrinking stage by stage
 function Funnel() {
   const lanes = [
-    { x: -6, n: 9, c: '#8B5CF6' }, { x: -2, n: 6, c: '#6EA8FF' }, { x: 2, n: 4, c: '#FFB86B' }, { x: 6, n: 2, c: '#C6F432' },
+    { x: -6, n: 9, c: '#3B82FF' }, { x: -2, n: 6, c: '#7AA7FF' }, { x: 2, n: 4, c: '#FFB547' }, { x: 6, n: 2, c: '#4CC9FF' },
   ];
   const refs = useRef([]);
   useFrame(({ clock }) => {
@@ -253,7 +253,7 @@ function Panels({ mobile }) {
       </mesh>
       <lineSegments>
         <edgesGeometry args={[new THREE.PlaneGeometry(p.w, p.h)]} />
-        <lineBasicMaterial color="#8B5CF6" />
+        <lineBasicMaterial color="#3B82FF" />
       </lineSegments>
     </group>
   ));
@@ -268,7 +268,7 @@ function Portal() {
       {[3.2, 4.6, 6, 7.6].map((r, i) => (
         <mesh key={i} ref={(el) => (refs.current[i] = el)}>
           <torusGeometry args={[r, 0.06, 12, 140]} />
-          <meshBasicMaterial color={hot(['#C6F432', '#FF4D8D', '#8B5CF6', '#6EA8FF'][i], 2.2)} toneMapped={false} />
+          <meshBasicMaterial color={hot(['#4CC9FF', '#FF5A5F', '#3B82FF', '#7AA7FF'][i], 2.2)} toneMapped={false} />
         </mesh>
       ))}
     </group>
@@ -281,10 +281,10 @@ export default function Scene3D() {
   return (
     <div aria-hidden="true" className="fixed inset-0 -z-10 scene-fallback">
       <Canvas dpr={[1, mobile ? 1.5 : 2]} camera={{ fov: 55, near: 0.1, far: 140, position: [0, 0, 12] }} gl={{ antialias: false, powerPreference: 'high-performance' }}>
-        <fog attach="fog" args={['#07060F', 14, 60]} />
+        <fog attach="fog" args={['#040915', 14, 60]} />
         <ambientLight intensity={0.55} />
-        <pointLight position={[6, 6, 6]} intensity={80} color="#8B5CF6" />
-        <pointLight position={[-6, -4, -10]} intensity={60} color="#FF4D8D" />
+        <pointLight position={[6, 6, 6]} intensity={80} color="#3B82FF" />
+        <pointLight position={[-6, -4, -10]} intensity={60} color="#FF5A5F" />
         <Env />
         <Rig mobile={mobile} />
         <Stars count={mobile ? 500 : 1400} />
