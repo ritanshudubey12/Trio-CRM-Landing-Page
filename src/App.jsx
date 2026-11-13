@@ -1,45 +1,44 @@
-import React from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import TrustedBy from './components/TrustedBy';
-import ProblemSection from './components/ProblemSection';
-import WhyTrioCRM from './components/WhyTrioCRM';
-import CoreModules from './components/CoreModules';
-import SalesWorkflow from './components/SalesWorkflow';
-import InventoryShowcase from './components/InventoryShowcase';
-import DashboardShowcase from './components/DashboardShowcase';
-import PowerFeatures from './components/PowerFeatures';
-import Statistics from './components/Statistics';
-import Testimonials from './components/Testimonials';
-import FAQ from './components/FAQ';
-import BookDemo from './components/BookDemo';
-import Footer from './components/Footer';
-import DemoModal from './components/DemoModal';
-import { useState } from 'react';
+import React, { Suspense, lazy, useCallback, useState } from 'react';
+import { Navbar, StickyCta, Footer } from './components/Chrome';
+import { Hero } from './components/Hero';
+import { DemoModal } from './components/LeadForm';
+import {
+  TrustStrip, ProblemSolution, Capabilities, FollowUps, ProductTour, HowItWorks,
+  ConnectedSuite, UseCases, SecuritySection, FAQ, FinalCta,
+} from './components/Sections';
+import { track } from './lib/track';
 
-function App() {
-  const [isDemoOpen, setIsDemoOpen] = useState(false);
+// WebGL world is code-split so the page content paints first.
+const Scene3D = lazy(() => import('./components/Scene3D'));
+
+export default function App() {
+  const [modal, setModal] = useState(null);
+  const demo = useCallback(() => { track('cta_click', { id: 'book_demo' }); setModal('demo'); }, []);
+  const start = useCallback(() => { track('cta_click', { id: 'start_free' }); setModal('start'); }, []);
 
   return (
-    <div className="min-h-screen">
-      <Navbar onOpenDemo={() => setIsDemoOpen(true)} />
-      <Hero onOpenDemo={() => setIsDemoOpen(true)} />
-      <TrustedBy />
-      <ProblemSection />
-      <WhyTrioCRM />
-      <CoreModules />
-      <SalesWorkflow />
-      <InventoryShowcase />
-      <DashboardShowcase />
-      <PowerFeatures />
-      <Statistics />
-      <Testimonials />
-      <FAQ />
-      <BookDemo onOpenDemo={() => setIsDemoOpen(true)} />
+    <>
+      <Suspense fallback={<div aria-hidden="true" className="fixed inset-0 -z-10 scene-fallback" />}>
+        <Scene3D />
+      </Suspense>
+      <Navbar onOpenDemo={demo} onStart={start} />
+      <main>
+        <Hero onStart={start} onDemo={demo} />
+        <TrustStrip />
+        <ProblemSolution />
+        <Capabilities />
+        <FollowUps />
+        <ProductTour />
+        <HowItWorks />
+        <ConnectedSuite />
+        <UseCases />
+        <SecuritySection />
+        <FAQ />
+        <FinalCta onStart={start} />
+      </main>
       <Footer />
-      <DemoModal isOpen={isDemoOpen} onClose={() => setIsDemoOpen(false)} />
-    </div>
+      <StickyCta onStart={start} />
+      <DemoModal open={!!modal} intent={modal} onClose={() => setModal(null)} />
+    </>
   );
 }
-
-export default App;
