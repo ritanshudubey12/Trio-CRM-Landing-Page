@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@react-three/fiber": "^9.8.2",
+    "@react-three/postprocessing": "^3.2.2",
     "@tailwindcss/vite": "^4.3.1",
     "autoprefixer": "^10.5.2",
     "framer-motion": "^12.42.0",
     "lucide-react": "^1.21.0",
     "postcss": "^8.5.15",
+    "postprocessing": "^6.39.6",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tailwindcss": "^4.3.1",

@@ -5,7 +5,7 @@ import { track } from '../lib/track';
 
 export const Logo = () => (
   <a href="#top" className="flex items-center gap-2.5 font-display font-bold text-[20px] tracking-tight" aria-label="Triostack CRM home">
-    <img src="/logo.png" alt="" width="34" height="39" className="h-9 w-auto rounded-md" />
+    <img src="/logo.png" alt="" width="41" height="36" className="h-9 w-auto" />
     Triostack<span className="text-lime">CRM</span>
   </a>
 );

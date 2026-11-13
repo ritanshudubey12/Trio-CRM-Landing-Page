@@ -3,7 +3,7 @@ import { Navbar, StickyCta, Footer } from './components/Chrome';
 import { Hero } from './components/Hero';
 import { DemoModal } from './components/LeadForm';
 import {
-  TrustStrip, ProblemSolution, Capabilities, FollowUps, ProductTour, HowItWorks,
+  ProductReveal, TrustStrip, ProblemSolution, Capabilities, FollowUps, ProductTour, Gallery, HowItWorks,
   ConnectedSuite, UseCases, SecuritySection, FAQ, FinalCta,
 } from './components/Sections';
 import { track } from './lib/track';
@@ -24,11 +24,13 @@ export default function App() {
       <Navbar onOpenDemo={demo} onStart={start} />
       <main>
         <Hero onStart={start} onDemo={demo} />
+        <ProductReveal />
         <TrustStrip />
         <ProblemSolution />
         <Capabilities />
         <FollowUps />
         <ProductTour />
+        <Gallery />
         <HowItWorks />
         <ConnectedSuite />
         <UseCases />

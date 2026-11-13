@@ -3,9 +3,24 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent, useReducedMoti
 import { ArrowRight, Check, ChevronDown, Shield, Users, KeyRound, Link2 } from 'lucide-react';
 import { Flip, Tilt, Head } from './fx';
 import { LeadForm } from './LeadForm';
-import * as M from './Mockups';
+import { Shot } from './Shot';
+import { SHOT_LIST } from '../data/shots';
 import { track } from '../lib/track';
 import { LEAD_SOURCES, PROBLEMS, SOLUTION, CAPABILITIES, FOLLOWUPS, TOUR, STEPS, SUITE, USE_CASES, SECURITY, FAQS } from '../data/content';
+
+/* Big product reveal right under the hero */
+export const ProductReveal = () => (
+  <section aria-label="Product screenshot" className="relative pb-16 lg:pb-28 -mt-10">
+    <div className="container-x">
+      <Flip from={38} offsetEnd={0.35}>
+        <div className="mx-auto max-w-[1100px] rounded-[24px] overflow-hidden border border-white/20 shadow-[0_60px_140px_-20px_rgba(139,92,246,.6)]">
+          <Shot id="customers" eager />
+        </div>
+      </Flip>
+      <p className="mt-4 text-center text-[11px] text-mist/70">Triostack CRM — product screenshot with sample data.</p>
+    </div>
+  </section>
+);
 
 /* Lead sources strip (verifiable facts only) */
 export const TrustStrip = () => (
@@ -68,7 +83,6 @@ export const Capabilities = () => {
     setI((prev) => { if (prev !== k) setDir(k > prev ? 1 : -1); return k; });
   });
   const c = CAPABILITIES[i];
-  const Mock = M[c.Mock];
   return (
     <section id="features" ref={ref} style={{ height: `${n * 80 + 20}vh` }} className="relative">
       <div className="sticky top-0 min-h-screen flex items-center py-20">
@@ -98,10 +112,10 @@ export const Capabilities = () => {
                 exit={{ opacity: 0, rotateY: -55 * dir, scale: .9, z: -120 }}
                 transition={{ duration: .5, ease: [0.22, 1, 0.36, 1] }}
                 className="rounded-[22px] overflow-hidden border border-white/20 shadow-[0_50px_120px_-20px_rgba(139,92,246,.55)]" style={{ transformStyle: 'preserve-3d' }}>
-                <Mock />
+                <Shot id={c.shot} />
               </motion.div>
             </AnimatePresence>
-            <p className="mt-4 text-center text-[11px] text-mist/70">Illustrative UI with sample data.</p>
+            <p className="mt-4 text-center text-[11px] text-mist/70">Product screenshots, sample data.</p>
           </div>
         </div>
       </div>
@@ -119,7 +133,7 @@ export const FollowUps = () => (
             <h3 className="mt-2 text-2xl lg:text-4xl font-bold">{FOLLOWUPS.t}</h3>
             <p className="mt-2 text-mist max-w-[56ch]">{FOLLOWUPS.d}</p>
           </div>
-          <div className="w-full md:w-[320px] rounded-2xl overflow-hidden border border-white/15 shadow-2xl"><M.CalendarMock /></div>
+          <div className="w-full md:w-[460px] rounded-2xl overflow-hidden border border-white/15 shadow-2xl"><Shot id="notifications" /></div>
         </div>
       </Flip>
     </div>
@@ -138,6 +152,7 @@ export const ProductTour = () => {
   const w = useWidth();
   const n = TOUR.length;
   const CARD = 520;
+  const CH = Math.round((CARD * 9) / 16);
   const radius = Math.round(CARD / 2 / Math.tan(Math.PI / n)) + 40;
   const scale = Math.min(1, (w - 32) / (CARD + 80));
   const drag = useRef(null);
@@ -153,18 +168,17 @@ export const ProductTour = () => {
               className={`min-h-[44px] px-5 rounded-full text-[14px] font-bold cursor-pointer transition-all ${k === i ? 'bg-lime text-void' : 'text-white border border-white/20 hover:bg-white/10'}`}>{t.label}</button>
           ))}
         </div>
-        <div className="persp mt-10 mx-auto touch-pan-y select-none" style={{ height: 400 * scale + 40, perspective: 1800 }}
+        <div className="persp mt-10 mx-auto touch-pan-y select-none" style={{ height: CH * scale + 40, perspective: 1800 }}
           onPointerDown={(e) => { drag.current = e.clientX; }}
           onPointerUp={(e) => { if (drag.current != null) { const d = e.clientX - drag.current; if (Math.abs(d) > 40) go(i + (d < 0 ? 1 : -1)); drag.current = null; } }}>
-          <div className="relative mx-auto" style={{ width: CARD, height: 400, transform: `scale(${scale})`, transformOrigin: 'top center' }}>
+          <div className="relative mx-auto" style={{ width: CARD, height: CH, transform: `scale(${scale})`, transformOrigin: 'top center' }}>
             <div className="ring3d absolute inset-0 transition-transform duration-[900ms] ease-[cubic-bezier(.22,1,.36,1)]" style={{ transform: `translateZ(-${radius}px) rotateY(${-i * (360 / n)}deg)` }}>
               {TOUR.map((t, k) => {
-                const Mock = M[t.Mock];
                 const active = k === i;
                 return (
                   <div key={t.id} role="tabpanel" aria-hidden={!active} className="absolute inset-0 rounded-[20px] overflow-hidden border border-white/20 bg-panel transition-opacity duration-500"
                     style={{ transform: `rotateY(${k * (360 / n)}deg) translateZ(${radius}px)`, opacity: active ? 1 : 0.35, backfaceVisibility: 'hidden', boxShadow: active ? '0 40px 100px -20px rgba(139,92,246,.7)' : 'none' }}>
-                    <Mock />
+                    <Shot id={t.shot} />
                   </div>
                 );
               })}
@@ -172,8 +186,55 @@ export const ProductTour = () => {
           </div>
         </div>
         <p className="text-center text-mist mt-4">{TOUR[i].cap}</p>
-        <p className="text-center text-[11px] text-mist/60 mt-1">Drag or use the tabs · Illustrative UI with sample data.</p>
+        <p className="text-center text-[11px] text-mist/60 mt-1">Drag or use the tabs · Product screenshots, sample data.</p>
       </div>
+    </section>
+  );
+};
+
+/* Gallery: every product screen. Cards tilt toward the pointer; click opens a full-size viewer. */
+export const Gallery = () => {
+  const [open, setOpen] = useState(-1);
+  const n = SHOT_LIST.length;
+  useEffect(() => {
+    if (open < 0) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(-1);
+      if (e.key === 'ArrowRight') setOpen((o) => (o + 1) % n);
+      if (e.key === 'ArrowLeft') setOpen((o) => (o - 1 + n) % n);
+    };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
+  }, [open, n]);
+  return (
+    <section id="gallery" className="section">
+      <div className="container-x">
+        <Head kicker="Inside the product" title="Every screen, one connected workspace." lead="Tap any screen to view it full size. Personal details are blurred." />
+        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {SHOT_LIST.map((s, k) => (
+            <Flip key={s.id} from={26}>
+              <Tilt className="panel overflow-hidden !rounded-[20px]" max={6}>
+                <button onClick={() => { setOpen(k); track('gallery_open', { shot: s.id }); }} className="block w-full text-left cursor-zoom-in" aria-label={`View ${s.title} full size`}>
+                  <img src={s.src} alt={s.alt} width="1920" height="1080" loading="lazy" decoding="async" className="block w-full h-auto" />
+                  <span className="block px-5 py-3.5 font-display font-bold text-[15px] border-t border-white/10">{s.title}</span>
+                </button>
+              </Tilt>
+            </Flip>
+          ))}
+        </div>
+      </div>
+      {open >= 0 && (
+        <div role="dialog" aria-modal="true" aria-label={SHOT_LIST[open].title} className="fixed inset-0 z-[70] grid place-items-center p-3 sm:p-8 bg-void/90 backdrop-blur-md" onMouseDown={(e) => e.target === e.currentTarget && setOpen(-1)}>
+          <button onClick={() => setOpen(-1)} aria-label="Close" className="absolute top-3 right-3 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer text-xl">×</button>
+          <button onClick={() => setOpen((open - 1 + n) % n)} aria-label="Previous" className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer text-xl">‹</button>
+          <button onClick={() => setOpen((open + 1) % n)} aria-label="Next" className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 grid place-items-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer text-xl">›</button>
+          <figure className="max-w-[1280px] w-full">
+            <img src={SHOT_LIST[open].src} alt={SHOT_LIST[open].alt} className="w-full h-auto rounded-2xl border border-white/20 shadow-[0_40px_120px_rgba(139,92,246,.4)]" />
+            <figcaption className="mt-3 text-center text-mist text-sm">{SHOT_LIST[open].title} · {open + 1} / {n}</figcaption>
+          </figure>
+        </div>
+      )}
     </section>
   );
 };
@@ -268,6 +329,12 @@ export const SecuritySection = () => (
             </Flip>
           );
         })}
+      </div>
+      <div className="lg:col-span-2">
+        <Flip from={24}>
+          <div className="mx-auto max-w-[1000px] rounded-[22px] overflow-hidden border border-white/20 shadow-[0_50px_120px_-20px_rgba(139,92,246,.45)]"><Shot id="audit" /></div>
+        </Flip>
+        <p className="mt-3 text-center text-[11px] text-mist/70">Audit logs record activity across modules. Sample data.</p>
       </div>
     </div>
   </section>

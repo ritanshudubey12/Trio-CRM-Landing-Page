@@ -28,12 +28,12 @@ export const SOLUTION = {
 };
 
 export const CAPABILITIES = [
-  { id: 'lead', t: 'Every lead, in one place.', d: 'Bring leads from website forms, imports and supported ad/listing integrations into a shared workspace.', tag: 'Lead capture', Mock: 'LeadsMock' },
-  { id: 'pipe', t: 'Know what moves. Know what is stuck.', d: 'Track deals across configurable stages and see ownership, status and next action.', tag: 'Pipeline', Mock: 'PipelineMock' },
-  { id: 'time', t: 'The full conversation, in context.', d: 'Keep customer interactions and deal activity associated with the right record, where supported.', tag: 'Customer timeline', Mock: 'TimelineMock' },
-  { id: 'quote', t: 'Move from conversation to commercial action.', d: 'Prepare quotations and track invoice/payment status within the CRM workflow.', tag: 'Quotes & invoices', Mock: 'QuoteMock' },
-  { id: 'wa', t: 'Bring team conversations closer to the customer record.', d: 'Multiple team members can work from a connected WhatsApp inbox. Requires WhatsApp Business API access; see FAQ for prerequisites.', tag: 'WhatsApp inbox', Mock: 'InboxMock' },
-  { id: 'cal', t: 'Keep meetings connected to opportunities.', d: 'Display demos, meetings and follow-up bookings in a shared calendar view.', tag: 'Calendar', Mock: 'CalendarMock' },
+  { id: 'lead', t: 'Every lead, in one place.', d: 'Bring leads from a website webhook, Google Ads, Meta, Click-to-WhatsApp, Google Sheets, LinkedIn Ads and more into one shared workspace.', tag: 'Lead capture', shot: 'integrations' },
+  { id: 'cust', t: 'Know every customer. Know who owns them.', d: 'Search customers by name, company or location, and see industry, assigned owner, city and status at a glance.', tag: 'Customers', shot: 'customers' },
+  { id: 'quote', t: 'Move from conversation to commercial action.', d: 'Create invoices and track status, grand total, payment and due dates inside the CRM workflow.', tag: 'Invoices', shot: 'invoices' },
+  { id: 'wa', t: 'Bring team conversations closer to the customer record.', d: 'Manage approved WhatsApp message templates for marketing, sales and support. Requires a WhatsApp Business API connection.', tag: 'WhatsApp', shot: 'whatsapp' },
+  { id: 'notify', t: 'Make the next step impossible to miss.', d: 'Choose how you are notified about leads, follow-ups and meetings — in-app, push, quiet hours and digests.', tag: 'Follow-ups', shot: 'notifications' },
+  { id: 'roles', t: 'The right access for every role.', d: 'Define roles such as Sales Manager or BDA and control who can view and manage records.', tag: 'Roles', shot: 'roles' },
 ];
 
 export const FOLLOWUPS = {
@@ -42,11 +42,12 @@ export const FOLLOWUPS = {
 };
 
 export const TOUR = [
-  { id: 'dash', label: 'Dashboard', Mock: 'DashboardMock', cap: 'Open leads, pipeline value and win rate at a glance.' },
-  { id: 'leads', label: 'Leads', Mock: 'LeadsMock', cap: 'Every lead with its source, owner and status.' },
-  { id: 'pipe', label: 'Pipeline', Mock: 'PipelineMock', cap: 'Deals by stage, with value and next action.' },
-  { id: 'wa', label: 'WhatsApp', Mock: 'InboxMock', cap: 'A shared inbox for the whole team.' },
-  { id: 'quote', label: 'Quotations', Mock: 'QuoteMock', cap: 'Quotes and invoice status in the same workflow.' },
+  { id: 'cust', label: 'Customers', shot: 'customers', cap: 'Customers with industry, owner, city and status.' },
+  { id: 'inv', label: 'Invoices', shot: 'invoices', cap: 'Invoices with status, totals and due dates.' },
+  { id: 'wa', label: 'WhatsApp', shot: 'whatsapp', cap: 'Approved WhatsApp templates, ready to send.' },
+  { id: 'int', label: 'Integrations', shot: 'integrations', cap: 'Lead sources connected from one hub.' },
+  { id: 'roles', label: 'Roles', shot: 'roles', cap: 'Role-based access for your team.' },
+  { id: 'audit', label: 'Audit logs', shot: 'audit', cap: 'A record of activity across modules.' },
 ];
 
 export const STEPS = [
